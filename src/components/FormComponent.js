@@ -9,7 +9,7 @@ import { IoTrashBin, IoAdd } from "react-icons/io5";
 function FromComponent() {
   const [numberInput, setNumberInput] = useState(1);
   const [texts, setTexts] = useState([""]);
-  const [test, setTest] = useState([]);
+  //const [result, setResult] = useState([]);
 
   const handleNumberInputChange = (event) => {
     const value = parseInt(event.target.value);
@@ -48,28 +48,31 @@ function FromComponent() {
     setNumberInput(newValues.length);
   };
 
-  const isMockUpMode = true;
+  const isMockUpMode = false;
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    setNumberInput("");
-    setTexts([""]);
-    console.log(texts);
+    await event.preventDefault();
     //รับ-ส่งข้อมูลระหว่าง client และ server และแสดงผลลัพธ์ที่ resultcomponent
-    var dataResponse = queryData();
+    var dataResponse = await queryData();
+    await console.log(dataResponse);
+
+    await setNumberInput("");
+    await setTexts([""]);
+    //console.log(texts);
+    
   };
 
-  const queryData = () => {
+  const queryData = async () => {
     try {
       if (isMockUpMode) {
-        console.log(mockUpData);
-        return mockUpData;
+        await console.log(mockUpData);
+        return await mockUpData;
       } else {
-        Axios.post("http://localhost:3001/submit", { data: texts }).then(
-          (response) => {
+        await Axios.post("https://bank-feedback-classifier-api.herokuapp.com/submit", { data: texts }).then(
+          async (response) => {
             //setTest(response.data);
-            console.log(response);
-            return response.data || [];
+            await console.log(response);
+            return await response.data || [];
           }
         );
       }
