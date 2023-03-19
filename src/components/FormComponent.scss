@@ -29,9 +29,14 @@
   position: relative;
 }
 
+.input-layout{
+  width: 65%;
+}
+
 .text-input {
   margin: 5px;
   position: relative;
+  display: flex;
 }
 
 .text-input-box {
@@ -40,6 +45,11 @@
   border-radius: 10px;
   border: 1px solid rgb(166, 159, 159);
   position: relative;
+}
+
+.right-container{
+  width: 75px;
+  align-self: center;
 }
 
 .remove-btn {

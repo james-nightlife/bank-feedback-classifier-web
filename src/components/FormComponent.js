@@ -1,15 +1,17 @@
 import { useState } from "react";
 import React from "react";
 import "./FormComponent.scss";
-import Axios from "axios";
 import { IoTrashBin, IoAdd } from "react-icons/io5";
+import { queryData } from "./Api";
+import ResultLabel from "./ResultLabel";
 // import { uuid } from 'uuidv4';
 
 /*ผู้ใช้งานกรอกข้อมูลที่ใช้ในการจำแนกคลาส*/
 function FromComponent() {
   const [numberInput, setNumberInput] = useState(1);
   const [texts, setTexts] = useState([""]);
-  //const [result, setResult] = useState([]);
+  const [test, setTest] = useState([]);
+  const [result, setResult] = useState([]);
 
   const handleNumberInputChange = (event) => {
     const value = parseInt(event.target.value);
@@ -48,62 +50,18 @@ function FromComponent() {
     setNumberInput(newValues.length);
   };
 
-  const isMockUpMode = false;
-
   const handleSubmit = async (event) => {
-    await event.preventDefault();
+    event.preventDefault();
+    // setNumberInput(0);
+    // setTexts([""]);
+    console.log("texts ::: ", texts);
     //รับ-ส่งข้อมูลระหว่าง client และ server และแสดงผลลัพธ์ที่ resultcomponent
-    var dataResponse = await queryData();
-    await console.log(dataResponse);
-
-    await setNumberInput("");
-    await setTexts([""]);
-    //console.log(texts);
-    
+    const queryResult = await queryData(texts);
+    console.log("queryResult ::: ", queryResult);
+    setResult(queryResult);
   };
 
-  const queryData = async () => {
-    try {
-      if (isMockUpMode) {
-        await console.log(mockUpData);
-        return await mockUpData;
-      } else {
-        await Axios.post("https://bank-feedback-classifier-api.herokuapp.com/submit", { data: texts }).then(
-          async (response) => {
-            //setTest(response.data);
-            await console.log(response);
-            return await response.data || [];
-          }
-        );
-      }
-    } catch (ex) {
-      console.error(ex);
-    }
-  };
-
-  const mockUpData =
-    ([
-      {
-        INPUT: "เขาโอนเงินมาเยอะมากเกินไป",
-        CLASS_NO: 5,
-        CLASS_NAME: "เงินฝาก",
-        PROBABILITY: 87,
-      },
-    ],
-    [
-      {
-        INPUT: "เขาโอนเงินมา",
-        CLASS_NO: 4,
-        CLASS_NAME: "MyMo",
-        PROBABILITY: 87,
-      },
-      {
-        INPUT: "เขาโอนเงินมาไม่ไหว",
-        CLASS_NO: 6,
-        CLASS_NAME: "สินเชื่อ",
-        PROBABILITY: 50,
-      },
-    ]);
+  const handleClearForm = () => {};
 
   return (
     <div className="form">
@@ -122,17 +80,17 @@ function FromComponent() {
         <br />
         {texts.map((text, index) => (
           <div className="text-input" key={index}>
-            <label>
+            <label className="input-layout">
               Text Input {index + 1}:
-              <input
+              <textarea
                 className="text-input-box"
-                type="text"
                 value={text}
                 onChange={(event) =>
                   handleTextChange(index, event.target.value)
                 }
               />
             </label>
+            <div className="right-container">
             {index > 0 && (
               <button
                 className="remove-btn"
@@ -147,11 +105,17 @@ function FromComponent() {
                 <IoAdd size={20} />
               </button>
             )}
+            </div>
+            {result[index] && <ResultLabel result={result[index]} />}
+            
           </div>
         ))}
         <br />
         <button className="submit-btn" type="submit">
           Submit
+        </button>
+        <button className="submit-btn" onClick={handleClearForm}>
+          Clear
         </button>
         {/* <div>
           {test.map((val, key) => {
