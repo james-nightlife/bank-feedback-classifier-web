@@ -7,22 +7,22 @@ export default function ResultLabel({ result }) {
     switch (result.CLASS_NAME) {
       // ['MyMo', 'บัตรและสลากออมสิน', 'สินเชื่อ', 'อื่น ๆ', 'เงินฝาก']
       case "MyMo":
-        background = "red";
+        background = "#c59595";
         break;
       case "บัตรและสลากออมสิน":
-        background = "pink";
+        background = "#c595c2";
         break;
       case "สินเชื่อ":
-        background = "green";
+        background = "#95c595";
         break;
       case "อื่น ๆ":
-        background = "lightgray";
+        background = "#c5c5c5";
         break;
       case "เงินฝาก":
-        background = "yellow";
+        background = "#e6e1b7";
         break;
       default:
-        background = "blue";
+        background = "#b7d1e6";
         break;
     }
   }

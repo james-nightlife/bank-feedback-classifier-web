@@ -4,14 +4,31 @@
 
 .form {
   flex: 2;
-  box-shadow: 0px 2px 3px 1px #323030;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   padding: 15px 15px 15px;
-  margin: 5px;
+  margin: 15px;
   border-radius: 10px;
   background: #ffffff;
   display: block;
   overflow: auto;
   font-size: 20px;
+
+  .form-con{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .text-input-main {
+    height: 100px;
+    overflow: auto;
+    flex: 1;
+    margin: 7.5px 0;
+  }
+
+  .btn-container{
+    display: flex;
+  }
 }
 
 .input-con {
@@ -24,12 +41,12 @@
   margin-left: 5px;
   padding: 3px;
   border: 1px solid rgb(136, 133, 133);
-  border-radius: 15px;
+  border-radius: 0.5rem;
   text-align: center;
   position: relative;
 }
 
-.input-layout{
+.input-layout {
   width: 65%;
 }
 
@@ -42,12 +59,12 @@
 .text-input-box {
   margin: 5px;
   width: -webkit-fill-available;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   border: 1px solid rgb(166, 159, 159);
   position: relative;
 }
 
-.right-container{
+.right-container {
   width: 75px;
   align-self: center;
 }
@@ -57,7 +74,7 @@
   margin: 2px;
   color: rgb(235, 129, 129);
   border: black;
-  border-radius: 20px;
+  border-radius: 0.5rem;
   cursor: pointer;
   position: relative;
 }
@@ -71,18 +88,41 @@
   margin: 2px;
   color: rgb(36, 110, 73);
   border: black;
-  border-radius: 20px;
+  border-radius: 0.5rem;
   cursor: pointer;
   position: relative;
 }
 
 .submit-btn {
+  min-width: 100px;
   background-color: rgb(69, 106, 171);
   margin: 5px;
   color: white;
   border: black;
-  border-radius: 20px;
+  border-radius: 0.5rem;
   padding: 5px 10px;
   cursor: pointer;
   position: relative;
+
+  &:hover {
+    background-color: #0f60f0;
+    box-shadow: 0px 15px 10px -15px #26d9f3;
+  }
+}
+
+.clear-btn {
+  min-width: 100px;
+  background-color: rgb(182, 89, 89);
+  margin: 5px;
+  color: white;
+  border: black;
+  border-radius: 0.5rem;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    background-color: #bd2433;
+    box-shadow: 0px 15px 10px -15px #ea1616;
+  }
 }

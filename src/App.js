@@ -1,19 +1,25 @@
-import Header from "./components/Header";
 import "./App.scss";
-import Banner from "./components/Banner";
-import FromComponent from "./components/FormComponent";
-// import ResultComponent from "./components/ResultComponent";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Header from "./components/Header";
+import Contact from "./components/Contact";
 
 function App() {
   return (
-    <div className="page">
-      <Header />
-      <Banner />
-      <div className="main-page">
-        <FromComponent />
-        {/* <ResultComponent /> */}
+    <BrowserRouter>
+      <div className="page">
+        <div className="loading" id="loading">
+          <div className="loading-layout">
+            <div className="loader"></div>
+          </div>
+        </div>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Contact" element={<Contact />} />
+        </Routes>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 

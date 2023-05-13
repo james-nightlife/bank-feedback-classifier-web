@@ -10,7 +10,6 @@ import ResultLabel from "./ResultLabel";
 function FromComponent() {
   const [numberInput, setNumberInput] = useState(1);
   const [texts, setTexts] = useState([""]);
-  const [test, setTest] = useState([]);
   const [result, setResult] = useState([]);
 
   const handleNumberInputChange = (event) => {
@@ -50,22 +49,44 @@ function FromComponent() {
     setNumberInput(newValues.length);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
+    showLoading();
     event.preventDefault();
     // setNumberInput(0);
     // setTexts([""]);
+    callWebService();
+  };
+
+  const callWebService = async () => {
     console.log("texts ::: ", texts);
     //รับ-ส่งข้อมูลระหว่าง client และ server และแสดงผลลัพธ์ที่ resultcomponent
     const queryResult = await queryData(texts);
-    console.log("queryResult ::: ", queryResult);
-    setResult(queryResult);
+    if (queryResult) { //queryResult ได้ผลลัพธ์กลับมา
+      console.log("queryResult ::: ", queryResult);
+      setResult(queryResult);
+      hideLoading();
+    } else {
+      callWebService();
+    }
   };
 
-  const handleClearForm = () => {};
+  const hideLoading = () => {
+    document.getElementById("loading").style.display = "none";
+  };
+
+  const showLoading = () => {
+    document.getElementById("loading").style.display = "block";
+  };
+
+  const handleClearForm = () => {
+    setNumberInput(1);
+    setTexts([""]);
+    setResult([]);
+  };
 
   return (
     <div className="form">
-      <form className="form-con" onSubmit={handleSubmit}>
+      <form className="form-con">
         <label className="input-con">
           Number Input :
           <input
@@ -77,51 +98,47 @@ function FromComponent() {
             onChange={handleNumberInputChange}
           />
         </label>
-        <br />
-        {texts.map((text, index) => (
-          <div className="text-input" key={index}>
-            <label className="input-layout">
-              Text Input {index + 1}:
-              <textarea
-                className="text-input-box"
-                value={text}
-                onChange={(event) =>
-                  handleTextChange(index, event.target.value)
-                }
-              />
-            </label>
-            <div className="right-container">
-            {index > 0 && (
-              <button
-                className="remove-btn"
-                type="button"
-                onClick={() => handleRemove(index)}
-              >
-                <IoTrashBin size={20} />
-              </button>
-            )}
-            {index === texts.length - 1 && index < 9 && (
-              <button className="add-btn" type="button" onClick={handleAdd}>
-                <IoAdd size={20} />
-              </button>
-            )}
+        <div className="text-input-main">
+          {texts.map((text, index) => (
+            <div className="text-input" key={index}>
+              <label className="input-layout">
+                Text Input {index + 1}:
+                <textarea
+                  className="text-input-box"
+                  value={text}
+                  onChange={(event) =>
+                    handleTextChange(index, event.target.value)
+                  }
+                />
+              </label>
+              <div className="right-container">
+                {index > 0 && (
+                  <button
+                    className="remove-btn"
+                    type="button"
+                    onClick={() => handleRemove(index)}
+                  >
+                    <IoTrashBin size={20} />
+                  </button>
+                )}
+                {index === texts.length - 1 && index < 9 && (
+                  <button className="add-btn" type="button" onClick={handleAdd}>
+                    <IoAdd size={20} />
+                  </button>
+                )}
+              </div>
+              {result[index] && <ResultLabel result={result[index]} />}
             </div>
-            {result[index] && <ResultLabel result={result[index]} />}
-            
-          </div>
-        ))}
-        <br />
-        <button className="submit-btn" type="submit">
-          Submit
-        </button>
-        <button className="submit-btn" onClick={handleClearForm}>
-          Clear
-        </button>
-        {/* <div>
-          {test.map((val, key) => {
-            return <div key={key}>{val.name}</div>;
-          })}
-        </div> */}
+          ))}
+        </div>
+        <div className="btn-container">
+          <button className="submit-btn" onClick={handleSubmit}>
+            Submit
+          </button>
+          <button className="clear-btn" onClick={handleClearForm}>
+            Clear
+          </button>
+        </div>
       </form>
     </div>
   );
